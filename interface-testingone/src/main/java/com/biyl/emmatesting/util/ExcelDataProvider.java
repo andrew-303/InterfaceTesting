@@ -2,6 +2,11 @@ package com.biyl.emmatesting.util;
 
 import java.util.Iterator;
 
+/**
+ * 
+ * @author Administrator
+ *
+ */
 public class ExcelDataProvider implements Iterator<Object[]>{
 
 	public ExcelDataProvider(String string, String caseNum) {
