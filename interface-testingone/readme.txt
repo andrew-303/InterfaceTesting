@@ -123,9 +123,12 @@
 ========================================================
 						项目结构
 ========================================================
+com.biyl.emmatesting.base
 BaseParpare :接口测试基类，供测试类继承
+com.biyl.emmatesting.util
 LogConfiguration :用于动态生成各个模块中的每条用例的日志，运行完成后请到result/log/目录下查看
 ExcelDataProvider:读取Excel数据
+PropertiesDataProvider:从.properties文件中读取相关测试数据
 
 
 

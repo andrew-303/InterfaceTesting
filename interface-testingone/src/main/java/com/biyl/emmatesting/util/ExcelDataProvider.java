@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -67,25 +69,53 @@ public class ExcelDataProvider implements Iterator<Object[]>{
 
 	/**
      * 判断excel文件sheet页中是否还有下一个内容
-     *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      * @return 返回true或false
      */
 	@Override
 	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		return false;
+		if(this.rowNum==0 || this.currentRowNo>=this.rowNum){
+			try {
+				inputStream.close();
+				book.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}return false;
+		}else{
+			//sheet下一页内容是否为空
+			if((sheet.getRow(currentRowNo))[0].getContents().equals(""))
+				return false;
+			return true;
+		}
+		
 	}
-
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	/**
+	 *  以Object形式返回行中的内容
+	 *  @return
+	 */
 	@Override
 	public Object[] next() {
-		// TODO Auto-generated method stub
-		return null;
+		Cell[] c = sheet.getRow(this.currentRowNo);
+		Map<String,String> data = new HashMap<String,String>();
+		for (int i = 0; i < this.columnNum; i++) {
+			String temp = "";
+			try{
+				temp = c[i].getContents().toString();
+			}catch(ArrayIndexOutOfBoundsException ex){
+				temp = "";
+			}
+			data.put(this.columnnName[i], temp);			
+		}
+		Object object[] = new Object[1];
+		object[0] = data;
+		this.currentRowNo++;
+		return object;
 	}
 
 	@Override
 	public void remove() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("remove unsupport");
 	}
 
 	
