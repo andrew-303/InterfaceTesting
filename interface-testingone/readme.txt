@@ -129,6 +129,7 @@ com.biyl.emmatesting.util
 LogConfiguration :用于动态生成各个模块中的每条用例的日志，运行完成后请到result/log/目录下查看
 ExcelDataProvider:读取Excel数据
 PropertiesDataProvider:从.properties文件中读取相关测试数据
+JdbcUtil:该类为数据库操作类，实现数据库的增、删、改、查操作。
 
 
 
