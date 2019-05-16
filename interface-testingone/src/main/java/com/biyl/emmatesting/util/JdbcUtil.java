@@ -4,6 +4,9 @@ import java.sql.*;
 
 import org.apache.log4j.Logger;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /**
  * 该类为数据库操作类，实现数据库的增删改查等操作
  * @author Administrator
@@ -148,6 +151,51 @@ public class JdbcUtil {
         }
     }
 
+    /**
+     * 把一个SQL的查询结果数据存放到json对象中
+     *
+     * @param sqlStr sql字符串
+     * @return 返回JSON对象
+     */
+    public static JSONObject sqlToJson(String sqlStr){
+    	ResultSet qrs = executeQuery(sqlStr);
+    	String key = null;
+    	String value = null;
+    	int rowNum;
+    	JSONObject jsonObj = new JSONObject();
+    	JSONObject arrayJson = new JSONObject();
+    	JSONArray array = new JSONArray();
+    	try {
+			qrs.last();
+			rowNum = qrs.getRow();
+			qrs.beforeFirst();
+			int columnNum = qrs.getMetaData().getColumnCount();
+			while(qrs.next()){
+				if(rowNum == 1){
+					for (int i = 0; i < columnNum; i++) {
+						key = qrs.getMetaData().getColumnLabel(i + 1);
+						value = qrs.getString(i+1);
+						jsonObj.put(key, value);
+					}
+				}else{
+					for (int j = 0; j < columnNum; j++) {
+						key = qrs.getMetaData().getColumnLabel(j+1);
+						value = qrs.getString(j+1);
+						arrayJson.put(key, value);
+					}
+					array.add(arrayJson);
+					jsonObj.put("array", array);
+					
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	free(qrs);
+    	return jsonObj;
+    }
+    
     /**
      * 释放【Statement】资源
      *
