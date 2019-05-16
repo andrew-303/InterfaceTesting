@@ -197,6 +197,14 @@ public class JdbcUtil {
     }
     
     /**
+     * 判断记录是否存在
+     *
+     * @param database
+     * @param sql
+     * @return
+     */
+    
+    /**
      * 释放【Statement】资源
      *
      * @param st
