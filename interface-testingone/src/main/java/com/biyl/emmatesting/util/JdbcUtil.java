@@ -166,9 +166,9 @@ public class JdbcUtil {
     	JSONObject arrayJson = new JSONObject();
     	JSONArray array = new JSONArray();
     	try {
-			qrs.last();
-			rowNum = qrs.getRow();
-			qrs.beforeFirst();
+			qrs.last();	//将游标指向结果集末尾
+			rowNum = qrs.getRow();	//返回结果是当前数据集的行号，而不是结果的行数
+			qrs.beforeFirst();	//将游标移到第一行前
 			int columnNum = qrs.getMetaData().getColumnCount();
 			while(qrs.next()){
 				if(rowNum == 1){
@@ -203,6 +203,102 @@ public class JdbcUtil {
      * @param sql
      * @return
      */
+    public static Boolean isExist(String database,String sql){
+    	ResultSet rs = null;
+    	
+    	try {
+    		rs = executeQuery(database,sql);
+			rs.last();
+			int count = rs.getRow();
+			if(count>0){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			free(rs);
+			return false;
+		}finally{
+			free(rs);
+		}
+    }
+    
+    /**
+     * 判断记录是否存在
+     *
+     * @param database
+     * @param sql
+     * @param obj
+     * @return Boolean
+     */
+    public static Boolean isExist(String database, String sql, Object... obj){
+    	ResultSet rs = null;
+    	
+    	try {
+    		rs = executeQuery(database,sql,obj);
+			rs.last();
+			int count = rs.getRow();
+			if(count>0){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			free(rs);
+			return false;
+		}finally{
+			free(rs);
+		}
+    }
+    
+    /**
+     * 获取查询记录的总行数
+     *
+     * @param database
+     * @param sql
+     * @return int
+     */
+    public static int getCount(String database,String sql){
+    	int result = 0;
+    	ResultSet rs = null;
+    	
+    	try {
+    		rs = executeQuery(database,sql);
+			rs.last();
+			result = rs.getRow();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			free(rs);			
+		}finally{
+			free(rs);
+		}
+    	return result;
+    }
+    
+    /**
+     * 获取查询记录的总行数
+     *
+     * @param database
+     * @param sql
+     * @param obj
+     * @return int
+     */
+    public static int getCount(String database,String sql,Object... obj){
+    	int result = 0;
+        ResultSet rs = null;
+        try {
+            rs = executeQuery(database, sql, obj);
+            rs.last();
+            result = rs.getRow();
+        } catch (SQLException err) {
+            err.printStackTrace();
+        } finally {
+            free(rs);
+        }
+        return result;
+    }
     
     /**
      * 释放【Statement】资源
