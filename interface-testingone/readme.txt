@@ -125,11 +125,14 @@
 ========================================================
 com.biyl.emmatesting.base
 BaseParpare :接口测试基类，供测试类继承
+
 com.biyl.emmatesting.util
 LogConfiguration :用于动态生成各个模块中的每条用例的日志，运行完成后请到result/log/目录下查看
 ExcelDataProvider:读取Excel数据
 PropertiesDataProvider:从.properties文件中读取相关测试数据
 JdbcUtil:该类为数据库操作类，实现数据库的增、删、改、查操作。
+UnirestUtil.java:封装Unirest API，并同时加强了接口测试的数据校验，支持具体内容、json格式数据、数据库数据的校验。
+TestCaseFactory.java:用于测试类自动生成，根据模块名、功能名(excel名称)来自动生成模块脚本
 
 
 
