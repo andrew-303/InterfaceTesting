@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.testng.Assert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,7 +19,7 @@ import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import net.sf.json.JSONObject;
+
 
 
 
@@ -34,14 +36,19 @@ public class UnirestUtil {
 		boolean flag = true;
 		String url = data.get("interface_url");
 		String expect = data.get("expect");
-		String parameters = data.get("parameters");
+		String parameters = data.get("parameters");		
 		logger.info("post请求数据开始");
 		
+		JSONObject para;
 		try {
-			Map<String,Object> para = convertJson(parameters);
-			jsonResponse = Unirest.post(url).header("accept","*/*").fields(para).asString();
+			//Map<String,Object> para = convertJson(parameters);
+			para = new JSONObject(parameters);
+			//jsonResponse = Unirest.post(url).header("accept","*/*").fields(para).asString();
+			jsonResponse = Unirest.post(url)
+					.header("Content-Type", "application/json")					
+					.body(para).asString();
 			responseBody = jsonResponse.getBody();
-			logger.info("请求参数：" + parameters);
+			logger.info("请求参数：" + para);
 			logger.info("post请求数据完毕");
 			/* ***********************************************************************************************************
              ********************************* 执行数据校验：*************************************************************
@@ -78,7 +85,7 @@ public class UnirestUtil {
 					sqlJson = JdbcUtil.sqlToJson(expect);	//将sql结果存到json中
 					logger.info("sqlJson:" + sqlJson);
 					logger.info("查询数据库的结果："+ sqlJson);
-					jsonCompare(JSONObject.fromObject(responseBody), sqlJson);					
+					jsonCompare(new JSONObject(responseBody), sqlJson);					
 				}								
 			}else{
 				if(responseBody.contains(expect)){
@@ -134,15 +141,28 @@ public class UnirestUtil {
 	}
 	
 	/**
+	 * 废弃，用net.sf.json.JSONObject转换以后，使用unirest调用接口时，传入的fields(para)会导致解析json失败
      * 将json字符串转换成JSONObject对象
      *
      * @param parameters
      * @return
      */
-	public static JSONObject convertJson(String parameters) {
+	/*public static JSONObject convertJson(String parameters) {
 		JSONObject jsonObj = JSONObject.fromObject(parameters);
 		return jsonObj;
+	}*/
+	
+	/**
+	 * 使用org.json.JSONObject
+	 * 将json字符串转换成JSONObject对象
+	 * @param parameters
+	 * @return
+	 */
+	public static JSONObject convertJson(String parameters) {
+		JSONObject jsonObj = new JSONObject(parameters);
+		return jsonObj;
 	}
+	
 	
 	/* ***********************************************************************************************************
      * 比较两个json数据的一致性，支持全比较、部分比较、含复杂list的json比较***************************************
@@ -232,9 +252,9 @@ public class UnirestUtil {
 			int Count = 0;
 			int arrLength = array2.length;
 			for (int i = 0; i < array.length; i++) {
-				JSONObject longObj = JSONObject.fromObject(array[i]);
+				JSONObject longObj = new JSONObject(array[i]);
 				for (int j = 0; j < arrLength; j++) {
-					JSONObject sqlObj = JSONObject.fromObject(array2[i]);
+					JSONObject sqlObj = new JSONObject(array2[i]);
 					if(jsonFieldCompare(longObj,sqlObj)){
 						if(jsonValueCompare(longObj, sqlObj)){
 							Count = Count + 1;
@@ -292,7 +312,7 @@ public class UnirestUtil {
 		Iterator<?> iter = sqlJson.keys();
 		while(iter.hasNext()){
 			String key = (String) iter.next();
-			if(longJson.containsKey(key)){
+			if(((Map<String, String>) longJson).containsKey(key)){
 				flag = true;
 			}else{
 				flag = false;

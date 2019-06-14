@@ -47,15 +47,19 @@ public class ExcelDataProvider implements Iterator<Object[]>{
 		try {
 			//文件路径
 			//直接用TestNG运行时，路径为"src/main/resources/data/" + moduleName + ".xls"
-			path = "classes/data/" + moduleName + ".xls" ;	//使用maven运行时路径			
+			path = "src/main/resources/data/" + moduleName + ".xls" ;
+			//path = "classes/data/" + moduleName + ".xls" ;	//使用maven运行时路径			
 			inputStream = new FileInputStream(path);
 			book = Workbook.getWorkbook(inputStream);
 			sheet = book.getSheet(caseNum);	//读取sheet页
 			rowNum = sheet.getRows();	//获得该sheet的所有行
 			Cell[] cell = sheet.getRow(0);	//获得第一行的所有单元格
 			columnNum = cell.length;	//单元格的个数，值赋给列数
-			for (int i = 0; i < columnNum; i++) {//一行的值
+			columnnName = new String[columnNum];//开辟列名的大小
+			
+			for (int i = 0; i < columnNum; i++) {//一行的值				
 				columnnName[i] = cell[i].getContents().toString();	//被赋予为列名
+			
 			}
 			this.currentRowNo++;
 		} catch (FileNotFoundException e) {

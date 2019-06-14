@@ -4,8 +4,8 @@ import java.sql.*;
 
 import org.apache.log4j.Logger;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * 该类为数据库操作类，实现数据库的增删改查等操作
@@ -183,7 +183,8 @@ public class JdbcUtil {
 						value = qrs.getString(j+1);
 						arrayJson.put(key, value);
 					}
-					array.add(arrayJson);
+					//array.add(arrayJson);
+					array.put(arrayJson);
 					jsonObj.put("array", array);
 					
 				}
