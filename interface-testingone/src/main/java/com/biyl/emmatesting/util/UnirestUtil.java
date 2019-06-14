@@ -41,7 +41,7 @@ public class UnirestUtil {
 		
 		JSONObject para;
 		try {
-			//Map<String,Object> para = convertJson(parameters);
+			
 			para = new JSONObject(parameters);
 			//jsonResponse = Unirest.post(url).header("accept","*/*").fields(para).asString();
 			jsonResponse = Unirest.post(url)
