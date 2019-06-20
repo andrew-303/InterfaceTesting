@@ -51,15 +51,16 @@ public class ExcelDataProvider implements Iterator<Object[]>{
 			//path = "classes/data/" + moduleName + ".xls" ;	//使用maven运行时路径			
 			inputStream = new FileInputStream(path);
 			book = Workbook.getWorkbook(inputStream);
-			sheet = book.getSheet(caseNum);	//读取sheet页
+			sheet = book.getSheet(caseNum);	//读取sheet页			
 			rowNum = sheet.getRows();	//获得该sheet的所有行
+			
 			Cell[] cell = sheet.getRow(0);	//获得第一行的所有单元格
 			columnNum = cell.length;	//单元格的个数，值赋给列数
 			columnnName = new String[columnNum];//开辟列名的大小
 			
 			for (int i = 0; i < columnNum; i++) {//一行的值				
 				columnnName[i] = cell[i].getContents().toString();	//被赋予为列名
-			
+				
 			}
 			this.currentRowNo++;
 		} catch (FileNotFoundException e) {
@@ -77,6 +78,7 @@ public class ExcelDataProvider implements Iterator<Object[]>{
      */
 	@Override
 	public boolean hasNext() {
+		
 		if(this.rowNum==0 || this.currentRowNo>=this.rowNum){
 			try {
 				inputStream.close();
@@ -87,7 +89,7 @@ public class ExcelDataProvider implements Iterator<Object[]>{
 			}return false;
 		}else{
 			//sheet下一页内容是否为空
-			if((sheet.getRow(currentRowNo))[0].getContents().equals(""))
+			if((sheet.getRow(currentRowNo))[0].getContents().equals(""))				
 				return false;
 			return true;
 		}
@@ -109,7 +111,8 @@ public class ExcelDataProvider implements Iterator<Object[]>{
 			}catch(ArrayIndexOutOfBoundsException ex){
 				temp = "";
 			}
-			data.put(this.columnnName[i], temp);			
+			data.put(this.columnnName[i], temp);		
+			//System.out.println("data:"+data);
 		}
 		Object object[] = new Object[1];
 		object[0] = data;

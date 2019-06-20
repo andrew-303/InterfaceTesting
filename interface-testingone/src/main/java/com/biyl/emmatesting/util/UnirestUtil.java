@@ -187,6 +187,7 @@ public class UnirestUtil {
 		}else{
 			Iterator<?> iter = sqlJson.keys();
 			while(iter.hasNext()){
+				System.out.println("进入jsonCompare方法");
 				String key = (String) iter.next();
 				String value = (String) sqlJson.get(key);
 				if(longJson.has(key)){	//包含相应的key的情况
@@ -283,6 +284,7 @@ public class UnirestUtil {
 		boolean flag = true;
 		Iterator<?> iter = sqlJson.keys();
 		while(iter.hasNext()){
+			System.out.println("进入jsonValueCompare方法");
 			String key = (String) iter.next();
 			String value = (String) sqlJson.get(key);
 			if(longJson.has(key)){//包含相应的key的情况
@@ -311,6 +313,7 @@ public class UnirestUtil {
 		boolean flag = true;
 		Iterator<?> iter = sqlJson.keys();
 		while(iter.hasNext()){
+			System.out.println("进入jsonFieldCompare方法");
 			String key = (String) iter.next();
 			if(((Map<String, String>) longJson).containsKey(key)){
 				flag = true;
