@@ -71,6 +71,7 @@ public class TestUnirest1 {
 		String postData = "invokeParam={\"beanName\": \"fundDataSendTask\",\"method\": \"run\",\"parameterTypes\":[\"java.lang.String\",\"java.lang.String\",\"java.lang.String\"],\"parameterValues\":[\""
 				+ thirdcode + "\",\"" + itemcode + "\",\"\"],\"callbackUrl\":\"\"}";
 		TestUnirest1.sendPost(url, postData, "application/x-www-form-urlencoded");
+		System.out.println("111111");
 	}
 }
 
