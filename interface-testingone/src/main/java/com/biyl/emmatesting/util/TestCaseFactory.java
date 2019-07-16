@@ -18,7 +18,7 @@ import jxl.read.biff.BiffException;
  */
 public class TestCaseFactory {
 	public static void main(String[] args) {
-		Test_Case_Factory("hzbs","getAppointListByUser");
+		Test_Case_Factory("hzbs","AppointAndcancelAppoint");
 	}
 
 	/**

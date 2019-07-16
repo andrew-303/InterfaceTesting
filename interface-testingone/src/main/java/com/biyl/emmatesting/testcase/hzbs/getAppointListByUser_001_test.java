@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 import com.biyl.emmatesting.util.JdbcUtil;
+import com.biyl.emmatesting.util.PreInterfaceTestUtil;
 import com.biyl.emmatesting.util.UnirestUtil;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -14,42 +15,19 @@ import com.biyl.emmatesting.base.BaseParpare;
 public class getAppointListByUser_001_test extends BaseParpare { 
  static Logger logger = Logger.getLogger(getAppointListByUser_001_test.class.getName());
  
- 	/**
- 	 * 此段代码是在自动生成代码后，手动添加的部分
- 	 * 通过调用手机号密码登录接口，获取用户token，得到token以后传递给下一个接口使用
- 	 * 接口入参中的password是加密后的结果
- 	 * @return
-	*/
-	public String testLoginByMobile() {
-
-		// 请求的主体,将String转成JSONObject,需要使用org.json包，如果使用net.sf.json.JSONObject会导致unirest请求时调用body报错
-		
-		String strJson = "{\r\n\t\"params\":{\r\n\t\t\"password\":\"C9196DB6D1CD1C1DDB60D56217AE967F\",\r\n\t\t\"mobile\":\"15068796557\"\r\n\t}\t\r\n}";
-		JSONObject jsonObject = new JSONObject(strJson);
-		String verificationToken = null;
-		try {
-			HttpResponse<String> response = Unirest.post("https://test.iconntech.com/gateway/system/login")
-					.header("Content-Type", "application/json").header("Cache-Control", "no-cache").body(jsonObject)
-					.asString();
-			JSONObject responseObject = new JSONObject(response.getBody());
-			verificationToken = responseObject.getString("data");
-		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return verificationToken;
-
-	}
  	
  	
 	@Test(dataProvider = "testData") 
 	public void testCase(Map<String, String> data) {
-		/******************************************************************************** 
-		 ***********************通过获取上一个接口的响应结果中的token， 替换当前接口中的请求参数中变量{token}******************** 
-		 ********************************************************************************/
-		getAppointListByUser_001_test alb = new getAppointListByUser_001_test();
+
+		/**
+		 * 自动化测试用例生成后，需要手动添加
+		 * 通过获取上一个接口的响应结果中的token， 替换当前接口中的请求参数中变量{token}
+		 */
 		String newParameters = null;
-		newParameters = data.get("parameters").replace("{token}", alb.testLoginByMobile());
+		String mobile="15068791025";
+	 	String password="8A3F4CB510B720FF2E5F8B3074BA5EFF";
+		newParameters = data.get("parameters").replace("{token}", PreInterfaceTestUtil.getTokenByMobile(mobile,password));
 		data.put("parameters", newParameters);//更新验证码
 		System.out.println("new data is:" + data.toString());
 		
