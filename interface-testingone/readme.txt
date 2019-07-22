@@ -86,7 +86,7 @@
     
     {"client_id":"1","param":{"registerInfo":{"mobileNo":"15824195942","password":"e10adc3949ba59abbe56e057f20f883e"
     ,"pwdLevel":"1","code":"{code}","sourceType":"web"}},"service_name":"kusercen.UserFacade.register",
-    "key":"Communication_IKUKO@kaike.la"}
+    "key":"Communication_IKUKO"}
     
    2、在测试脚本中可以通过数据库查询到该参数的内容，再进行参数替换进行测试。如下：
 
@@ -137,6 +137,5 @@ UnirestUtil.java:封装Unirest API，并同时加强了接口测试的数据校�
 TestCaseFactory.java:测试用例生产工厂，用于测试类自动生成，根据模块名、功能名(excel名称)来自动生成模块脚本
 PreInterfaceTestUtil： 提供生成接口测试依赖数据的前置条件的工具类
 
-！！！！！！！！！！！
 
 
