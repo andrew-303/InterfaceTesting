@@ -43,9 +43,9 @@ public class Des {
 	 * @param src
 	 * @param sKey
 	 * @return
-	 * @throws Throwable
+	 * @throws Exception
 	 */
-	public static byte[] decrypt(byte[] src,String sKey) throws Throwable {
+	public static byte[] decrypt(byte[] src,String sKey) throws Exception {
 		byte[] key = sKey.getBytes();
 		//初始化向量
 		IvParameterSpec iv = new IvParameterSpec(key);

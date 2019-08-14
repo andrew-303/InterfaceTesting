@@ -23,15 +23,15 @@ public class DesUtil {
 	 * 解密
 	 * @param hexStr
 	 * @return
-	 * @throws Throwable
+	 * @throws Exception
 	 */
-	public static String decrypt(String hexStr) throws Throwable {
+	public static String decrypt(String hexStr) throws Exception {
 		byte[] src = Des.parseHexStr2Byte(hexStr);		
 		byte[] buf = Des.decrypt(src, SKEY);		
 		return new String(buf,CHARSET);
 	}
 	
-	public static void main(String[] args) throws Throwable {
+	public static void main(String[] args) throws Exception {
 		System.out.println(encrypt("qwer1234"));
 		System.out.println(decrypt("8A3F4CB510B720FF2E5F8B3074BA5EFF"));
 	}
