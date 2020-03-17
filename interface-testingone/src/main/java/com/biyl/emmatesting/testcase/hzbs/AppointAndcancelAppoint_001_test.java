@@ -1,4 +1,4 @@
-package com.biyl.emmatesting.testcase.hzbs; 
+package com.biyl.emmatesting.testcase.hzbs;
 
 import java.util.Map;
 import org.apache.log4j.Logger;
@@ -16,18 +16,12 @@ import com.biyl.emmatesting.base.BaseParpare;
  * @author Andrew
  *
  */
-public class AppointAndcancelAppoint_001_test extends BaseParpare { 
- static Logger logger = Logger.getLogger(AppointAndcancelAppoint_001_test.class.getName());
-	/**
-	 * 生成token的方法提到全局，可以一次生成多次使用
-	 */
-	String mobile = "15068791025";
-	String password = "8A3F4CB510B720FF2E5F8B3074BA5EFF";
-	String newToken = PreInterfaceTestUtil.getTokenByMobile(mobile, password);
-	
-	@Test(dataProvider = "testData") 
+public class AppointAndcancelAppoint_001_test extends BaseParpare {
+	static Logger logger = Logger.getLogger(AppointAndcancelAppoint_001_test.class.getName());
+
+	@Test(dataProvider = "testData")
 	public void testCase(Map<String, String> data) {
-	
+
 		/**
 		 * 1、预约
 		 */
@@ -41,9 +35,10 @@ public class AppointAndcancelAppoint_001_test extends BaseParpare {
 			HttpResponse<String> response = Unirest.post("https://test.iconntech.com/gateway/appoint/appoint")
 					.header("Content-Type", "application/json").header("Cache-Control", "no-cache").body(jsonObject)
 					.asString();
+			//logger.info("调用预约接口后得到的response为：" + response.getBody());
 			JSONObject responseObject = new JSONObject(response.getBody());
 			appointId = responseObject.getJSONObject("data").getInt("id");
-			logger.info("appointId值为:"+ appointId);
+			//logger.info("appointId值为:"+ appointId);
 		} catch (UnirestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,28 +47,28 @@ public class AppointAndcancelAppoint_001_test extends BaseParpare {
 		 * 替换变量参数
 		 */
 		String newAppointId = String.valueOf(appointId);
-		
+
 		String newParameters = null;
 		newParameters = data.get("parameters").replace("{appointId}", newAppointId).replace("{token}", newToken);
 		data.put("parameters", newParameters);//更新验证码
-		
+
 		//以下是自动生成的代码：
 		//=========================================================================================================
-		String pre_condition = data.get("pre_condition"); 
-		/******************************************************************************** 
-		 *********************** 用例中的pre_condition列不为空时，执行相应的SQL语句******************** 
-		 ********************************************************************************/ 
-		if (pre_condition.length() > 0) { 
-		logger.info("**********************************正在执行数据准备操作*********************************"); 
-			String[] Array = pre_condition.split(";\n"); 
-			for (int i = 0; i < Array.length; i++) { 
-				JdbcUtil.executeNonQuery(Array[i]); 
-			} 
-		logger.info("**********************************执行数据准备操作完成*********************************"); 
-		} 
+		String pre_condition = data.get("pre_condition");
+		/********************************************************************************
+		 *********************** 用例中的pre_condition列不为空时，执行相应的SQL语句********************
+		 ********************************************************************************/
+		if (pre_condition.length() > 0) {
+			logger.info("**********************************正在执行数据准备操作*********************************");
+			String[] Array = pre_condition.split(";\n");
+			for (int i = 0; i < Array.length; i++) {
+				JdbcUtil.executeNonQuery(Array[i]);
+			}
+			logger.info("**********************************执行数据准备操作完成*********************************");
+		}
 		/******************************************************************************** 
 		 *********************************** 进行接口测试，并验证测试结果*************************** 
-		 ********************************************************************************/ 
-		UnirestUtil.InterfaceTest(data);  
+		 ********************************************************************************/
+		UnirestUtil.InterfaceTest(data);
 	}
 }
