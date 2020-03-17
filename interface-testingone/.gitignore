@@ -2,3 +2,6 @@
 /log/
 /result/
 .idea
+.settings
+.project
+.classpath
