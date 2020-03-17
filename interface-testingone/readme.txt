@@ -53,7 +53,7 @@
 	</test>
 
     6、使用maven运行测试后,会在target/surefire-reports目录下生成emailable-report.html格式的测试报告，
-    及在target/log目录下生成相应的测试脚本的日志文件。
+    及在target/log目录下生成相应的测试脚本的日志文件
 
 
 测试用例填写说明：
