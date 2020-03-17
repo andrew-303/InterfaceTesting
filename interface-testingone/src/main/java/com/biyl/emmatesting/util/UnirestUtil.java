@@ -34,10 +34,11 @@ public class UnirestUtil {
 		HttpResponse<String> jsonResponse = null;
 		HttpResponse<JsonNode> kapiResponse = null;
 		boolean flag = true;
+		String case_desc = data.get("case_desc");
 		String url = data.get("interface_url");
 		String expect = data.get("expect");
 		String parameters = data.get("parameters");		
-		logger.info("post请求数据开始");
+		logger.info(case_desc+"接口post请求数据开始");
 		
 		JSONObject para;
 		try {
@@ -95,7 +96,7 @@ public class UnirestUtil {
 					Assert.assertTrue(flag);					
 				}else{
 					flag = false;
-					logger.error("接口测试，接口发生异常或存在异常数据进行接口注入，预期结果为："+ expect + ",而实际结果为："+responseBody.toString());
+					logger.error("接口测试，接口发生异常或存在异常数据进行接口注入，预期结果为："+ expect + "\n,而实际结果为："+responseBody.toString());
 					Assert.assertTrue(flag);
 				}
 			}
@@ -195,7 +196,7 @@ public class UnirestUtil {
 						flag = true;
 					}else{//相应的key对应的value不相等
 						flag = false;
-						logger.error("接口测试数据校验失败，预期结果为：" + longJson + "，而实际结果为："+sqlJson);
+						logger.error("接口测试数据校验失败，预期结果为：" + longJson + "\n，而实际结果为："+sqlJson);
 						Assert.assertTrue(flag);
 						break;
 					}
@@ -224,7 +225,7 @@ public class UnirestUtil {
 						}else{
 							flag = false;
                             logger.error("接口测试数据校验失败,预期结果为:" + sqlJson
-                                    + ",而实际结果为:" + longJson);
+                                    + "\n,而实际结果为:" + longJson);
                             Assert.assertTrue(flag);
                             break;
 						}
