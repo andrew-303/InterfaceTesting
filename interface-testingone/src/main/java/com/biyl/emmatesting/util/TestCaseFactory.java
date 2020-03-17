@@ -14,15 +14,14 @@ import jxl.read.biff.BiffException;
 /**
  * 根据要求填写测试用例Excel之后，运行该类能够自动生成指定模块的测试用例代码
  * @author Administrator
- *
  */
 public class TestCaseFactory {
 	public static void main(String[] args) {
-		Test_Case_Factory("hzbs","AppstageBynewVersion_new");
+		Test_Case_Factory("hzbs","debug_testcase");
 	}
 
 	/**
-	 * 
+	 *
 	 * @Description: 根据模块名、功能名(excel名称)来自动生成测试用例脚本
 	 * @param @param moduleName 模块名
 	 * @param @param functionName 功能名
@@ -46,7 +45,7 @@ public class TestCaseFactory {
 				System.out.println(moduleName+"包已创建");
 				System.out.println("正在生成用例到"+moduleName+"包下，请稍等...");
 			}
-			
+
 			String dir = "src/main/resources/data/";
 			String path = "";
 			File file = new File(dir+File.separator+moduleName+"/"+functionName+".xls");
@@ -61,11 +60,11 @@ public class TestCaseFactory {
 					e1.printStackTrace();
 				}
 				sourceFile = new File(caseFolder+moduleName.toLowerCase()
-				+File.separator+functionName+"_"+sheetName+"_test.java");//创建测试用例源码，指定存放路径
-				
+						+File.separator+functionName+"_"+sheetName+"_test.java");//创建测试用例源码，指定存放路径
+
 				FileWriter writer = new FileWriter(sourceFile);
 				classname = functionName + "_" + sheetName + "_test";
-				
+
 				// 生成测试用例代码的头文件
 				writer.write("package com.biyl.emmatesting.testcase."
 						+moduleName
@@ -84,35 +83,34 @@ public class TestCaseFactory {
 						+classname + ".class.getName());\n");
 				//@Test的主体部分，也就是测试用例的方法
 				writer.write("	@Test(dataProvider = \"testData\") \n"
-						+ "	public void testCase(Map<String, String> data) { \n"
-						+ "		String pre_condition = data.get(\"pre_condition\"); \n"
-						+ "		/******************************************************************************** \n"
-						+ "		 *********************** 用例中的pre_condition列不为空时，执行相应的SQL语句******************** \n"
-						+ "		 ********************************************************************************/ \n"
+						+ "	public void testCase(Map<String, String> data) { \n \n"
+						+ "		/*------- Auto generated test code start ------*/ \n"
+						+ "		String pre_condition = data.get(\"pre_condition\"); \n \n"
+						+ "		//用例中的pre_condition列不为空时，执行相应的SQL语句 \n"
 						+ "		if (pre_condition.length() > 0) { \n"
-						+ "		logger.info(\"**********************************正在执行数据准备操作*********************************\"); \n"
+						+ "		logger.info(\"----------------------正在执行数据准备操作---------------------\"); \n"
 						+ "			String[] Array = pre_condition.split(\";\\n\"); \n"
 						+ "			for (int i = 0; i < Array.length; i++) { \n"
 						+ "				JdbcUtil.executeNonQuery(Array[i]); \n"
 						+ "			} \n"
-						+ "		logger.info(\"**********************************执行数据准备操作完成*********************************\"); \n"
+						+ "		logger.info(\"----------------------执行数据准备操作完成----------------------\"); \n"
 						+ "		} \n"
-						+ "		/******************************************************************************** \n"
-						+ "		 *********************************** 进行接口测试，并验证测试结果*************************** \n"
-						+ "		 ********************************************************************************/ \n"
-						+ "		UnirestUtil.InterfaceTest(data);  \n" + "	}\n");
+						+ "		//进行接口测试，并验证测试结果 \n"
+						+ "		UnirestUtil.InterfaceTest(data);  \n \n"
+						+ "		/*------- Auto generated test code end ------*/ \n"
+						+ "	}\n");
 				//代码结尾大括号
 				writer.write("}");
-				writer.close();				
+				writer.close();
 			}
 		} catch (IOException e) {
 			Assert.fail("IO异常", e);
-	}	
+		}
 		System.out.println("模块[" + moduleName + "]下[" +functionName
 				+"]功能的用例已经生成完成，共计：" + (sheetNum) +"条，请到"+caseFolder
 				+ moduleName.toLowerCase() + "路径下查询");
-		
-}
+
+	}
 
 	/**
 	 * @Description: 获取指定excel文件的sheet页名称

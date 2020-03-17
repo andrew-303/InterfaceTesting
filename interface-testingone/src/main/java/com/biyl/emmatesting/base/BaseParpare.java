@@ -1,7 +1,10 @@
 package com.biyl.emmatesting.base;
 
 import java.util.Iterator;
+import java.util.Map;
 
+import com.biyl.emmatesting.util.DesUtil;
+import com.biyl.emmatesting.util.PreInterfaceTestUtil;
 import org.apache.log4j.Logger;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
@@ -23,13 +26,14 @@ public class BaseParpare {
 	public static String moduleName = null;	//模块的名字
 	public static String functionName = null;	//功能的名字
 	public static String caseNum = null;	//用例编号
-	
+	public static String newToken = null;	//用户登录后返回的Token
+
 	@BeforeTest
 	public void beforeTest(){
-		LogConfiguration.initLog(getModuleName(), this.getClass().getSimpleName());		
+		LogConfiguration.initLog(getModuleName(), this.getClass().getSimpleName());
 		logger.info("====================================接口测试开始====================================");
 	}
-	
+
 	/**接口测试前准备工作*/
 	@BeforeClass
 	public void startTest(){
@@ -37,20 +41,23 @@ public class BaseParpare {
 		functionName = getFunctionName();
 		caseNum = getCaseNum();
 		logger.info(moduleName + "模块" + functionName + "接口" + caseNum + "用例测试开始");
+
+		newToken = getNewToken();
+		logger.info("获取到测试数据用户的token为：" + newToken);
 	}
-	
+
 	/**接口测试结束后需要做的相关工作*/
 	@AfterClass
 	public void endTest(){
 		logger.info(moduleName + "模块"  + functionName + "接口"  + caseNum + "用例测试结束");
 	}
-	
+
 	/**接口测试结束后需要做的相关工作*/
 	@AfterTest
 	public void afterTest(){
 		logger.info("====================================接口测试完毕====================================");
 	}
-	
+
 	/**测试数据提供者 - 方法*/
 	@DataProvider(name="testData")
 	public Iterator<Object[]> dataFortestMethod(){
@@ -69,23 +76,23 @@ public class BaseParpare {
 		secondLastDotIndexNum = className.indexOf(startStr)+startStr.length();
 		moduleName = className.substring(secondLastDotIndexNum, lastDotIndexNum);	//取的模块的名称
 		return moduleName;
-		
+
 	}
-	
+
 	/**
 	 * 获取接口名
 	 * @return
 	 */
 	public String getFunctionName(){
-		String className = this.getClass().getName();		
+		String className = this.getClass().getName();
 		int underlineIndexNum = className.indexOf("_");//取得第一个"_"的index
 		if(underlineIndexNum>0){
 			functionName = className.substring(className.lastIndexOf(".")+1, underlineIndexNum);
 		}
 		return functionName;
-		
+
 	}
-	
+
 	/**
 	 * 获取用例编号
 	 */
@@ -95,6 +102,25 @@ public class BaseParpare {
 		if(underlineIndexNum > 0){
 			caseNum = className.substring(underlineIndexNum+1,underlineIndexNum+4);	//取得用例编号
 		}
-		return caseNum;		
+		return caseNum;
 	}
+
+	/**
+	 * 获取用户登录Token
+	 */
+	public String getNewToken(){
+		/**
+		 * 获取接口传入参数中的Token变量值
+		 * 通过手机号、密码调用登录接口获取token
+		 */
+		Map<String, String> mobileAndPass = PreInterfaceTestUtil.getMobileAndPass();
+		String mobile = mobileAndPass.get("mobile");
+		String passwordSrc = mobileAndPass.get("password");
+		String password = DesUtil.encrypt(passwordSrc);
+		//String password="8A3F4CB510B720FF2E5F8B3074BA5EFF";  //通过DES加密后得到的结果
+		String newToken = PreInterfaceTestUtil.getTokenByMobile(mobile, password);
+		return newToken;
+	}
+
+
 }
