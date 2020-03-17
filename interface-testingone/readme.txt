@@ -29,6 +29,9 @@
     a、可以为一个接口设置不同的参数
     b、也可以在一个sheet页对不同接口进行测试。
    
+6、支持数据准备配置
+    在config/data_prepare.properties配置文件中准备测试数据
+    读取该配置文件，已获取测试前置数据准备
 
 接口框架使用说明：
 
@@ -36,9 +39,9 @@
 
     2、在TestCaseFactory.java文件中配置Test_Case_Factory("?", "?");该行内容，第一个参数为模块名称，第二个参数为excel名称。如：
        Test_Case_Factory("pay", "payment");
- 
+
     3、右键-->run as-->Java Aplication运行TestCaseFactory这个类。
-    
+
     4、运行成功后，刷新过程可以看到在相应的包下生成了相应的测试脚本。
 
     5、执行测试,配置testng.xml,指定运行那个测试类。在suite节点下添加即可,例如：
@@ -47,9 +50,10 @@
 			<class
 				name="com.alien.emmatesting.testcase.pay.payment_001_test" />
 		</classes>
-	</test>	
+	</test>
 
-    6、使用maven运行测试后,会在target/surefire-reports目录下生成emailable-report.html格式的测试报告，及在target/log目录下生成相应的测试脚本的日志文件。
+    6、使用maven运行测试后,会在target/surefire-reports目录下生成emailable-report.html格式的测试报告，
+    及在target/log目录下生成相应的测试脚本的日志文件。
 
 
 测试用例填写说明：
@@ -64,10 +68,10 @@
        {"commodity_id":"349"}或{"commodity_id":"349","member_id":"1"}
        或{'msgId': '21001','request': {'version': '2.2.0', 'os': 'ios', 'resolvingPower': '720'}}、
        {
-       "msgId": "21001", 
+       "msgId": "21001",
        "request": {
-           "version": "2.2.0", 
-           "os": "ios", 
+           "version": "2.2.0",
+           "os": "ios",
            "resolvingPower": "720"
           }
       }
@@ -83,11 +87,11 @@
 3、若存在接口依赖
 
    1、依赖的接口中参数，可以使用参数的格式，如"code":"{code}"，见下
-    
+
     {"client_id":"1","param":{"registerInfo":{"mobileNo":"15824195942","password":"e10adc3949ba59abbe56e057f20f883e"
     ,"pwdLevel":"1","code":"{code}","sourceType":"web"}},"service_name":"kusercen.UserFacade.register",
     "key":"Communication_IKUKO"}
-    
+
    2、在测试脚本中可以通过数据库查询到该参数的内容，再进行参数替换进行测试。如下：
 
     case 2://利用手机验证码进行注册
@@ -96,7 +100,7 @@
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			String qsql1 = 
+			String qsql1 =
             "select left(right(substring_index(t.content,'[',1),9),4) from sms_record t where t.mobile = '15824195942' " +
 					"order by send_time desc LIMIT 1";
 			// 查询
@@ -139,4 +143,3 @@ PreInterfaceTestUtil： 提供生成接口测试依赖数据的前置条件的�
 DesUtil:Des加解密工具类
 Des:具体的Des加解密实现类
 
-提交github
