@@ -15,7 +15,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class TestUnirest3 {
 	
 	
-	@Test
+	//@Test
 	public void testHomepage1(){
 		//请求的主体
 		JSONObject jsonObject = new JSONObject();

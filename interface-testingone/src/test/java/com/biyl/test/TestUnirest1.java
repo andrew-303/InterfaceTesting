@@ -63,7 +63,7 @@ public class TestUnirest1 {
         return "";
     }
     
-    @Test
+    //@Test
 	public static void job_MidwaySendDataToFundPlatform() {
     	String thirdcode =null;
     	String itemcode =null;

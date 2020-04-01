@@ -18,7 +18,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class TestUnirest4 {
 	
 	
-	@Test
+	//@Test
 	public void testHomepage1(){
 		//请求的主体,将String转成JSONObject,需要使用org.json包，如果使用net.sf.json.JSONObject会导致unirest请求时调用body报错
 		String strJson = "{\n\t\"token\":\"6a95b2e141188d8ff1324ea3feb08879\",\n\t\"client\":\"android\",\n\t\"params\":{\n\t\t\"version\":\"8.0.0\",\n\t\t\"areaId\":\"144\",\n\t\t\"stagePosition\":\"01\",\n\t\t\"realVersion\":\"1.2.5\"\n\t}\n\n}";
@@ -50,7 +50,7 @@ public class TestUnirest4 {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void testlogin1(){
 		String mobile="15068791025";
 		//请求的主体,将String转成JSONObject,需要使用org.json包，如果使用net.sf.json.JSONObject会导致unirest请求时调用body报错
@@ -84,7 +84,7 @@ public class TestUnirest4 {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void testAppoint(){
 		//请求的主体,将String转成JSONObject,需要使用org.json包，如果使用net.sf.json.JSONObject会导致unirest请求时调用body报错
 		String strJson = "{\"params\":{\"groupId\":\"475\",\"telephone\":\"15068791025\",\"sfzh\":\"3****************2\",\"userId\":\"449\",\"appointItemId\":\"165\",\"dateId\":\"168062\"},\"token\":\"c4eb21c098bb4c642c63805db4f50501\"}";

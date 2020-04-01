@@ -29,7 +29,7 @@ public class TestUnirest2 {
 				
 	}*/
 	
-	@Test
+	//@Test
 	public void testHomepage1(){
 		String strjson = "{\n\t\"token\":\"6a95b2e141188d8ff1324ea3feb08879\",\n\t\"client\":\"android\",\n\t\"params\":{\n\t\t\"version\":\"8.0.0\",\n\t\t\"areaId\":\"144\",\n\t\t\"stagePosition\":\"01\",\n\t\t\"realVersion\":\"1.2.5\"\n\t}\n\n}";
 		JSONObject jsonObj = JSONObject.fromObject(strjson);
